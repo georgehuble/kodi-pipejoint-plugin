@@ -236,9 +236,7 @@ The Ethereum address is a shared EVM address: the same address receives on **Eth
 the network shown next to the address.
 
 ## License
-
+[![GPL-3.0-or-later](docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 PipeJoint is distributed under the **GNU General Public License v3.0 or later**
 (GPL-3.0-or-later) - see [`LICENSE`](LICENSE). PipeJoint is derived from MIT-licensed code, and
 that attribution is preserved in the relevant source headers.
-
-[![GPL-3.0-or-later](docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
