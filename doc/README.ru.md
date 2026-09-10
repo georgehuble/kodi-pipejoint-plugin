@@ -241,6 +241,7 @@ PipeJoint - свободное ПО, которое развивается в с
 
 ## Лицензия
 [![GPL-3.0-or-later](../docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
 PipeJoint распространяется под лицензией **GNU General Public License v3.0 или новее**
 (GPL-3.0-or-later) - см. [`LICENSE`](../LICENSE). PipeJoint основан на коде под лицензией MIT, и
 эта атрибуция сохранена в соответствующих заголовках исходников.
