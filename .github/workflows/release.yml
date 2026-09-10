@@ -1,0 +1,122 @@
+# Tag-driven release.
+#
+# Pushing a version tag (v<version>) runs the same checks as CI, compares the tag
+# with the version declared in addon.xml, and publishes the installable archive as
+# a release asset. The manifest is the single source of truth: a tag that disagrees
+# with it fails before anything is built, so no release and no asset are produced.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+# Required to create the release and upload the archive asset. This workflow is
+# tag-only, so an ordinary branch push never reaches it.
+permissions:
+  contents: write
+
+jobs:
+  lint:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tooling
+        run: python -m pip install --upgrade pip ruff mypy
+      - name: Ruff
+        run: ruff check .
+      - name: Mypy
+        run: mypy .
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run the desktop and Kodi-shim test suite
+        run: |
+          set -euo pipefail
+          for test_script in tests/test_*.py; do
+            echo "==> ${test_script}"
+            python "${test_script}"
+          done
+
+  release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    # A failing check blocks the release: no gate is skipped by tagging.
+    needs: [lint, tests]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate the tag against the manifest version
+        run: |
+          set -euo pipefail
+          tag_version="${GITHUB_REF_NAME#v}"
+          manifest_version="$(grep '  version=' addon.xml | cut -d'"' -f2)"
+          echo "tag version:      ${tag_version}"
+          echo "manifest version: ${manifest_version}"
+          if [ "${tag_version}" != "${manifest_version}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match addon.xml version ${manifest_version}; nothing is published."
+            exit 1
+          fi
+
+      - name: Build and verify the release archive
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          archive="kodi-pipejoint-plugin_v${version}.zip"
+          make dist
+          test -f "${archive}"
+          top_level="$(unzip -Z1 "${archive}" | cut -d/ -f1 | sort -u)"
+          echo "top-level entry: ${top_level}"
+          if [ "${top_level}" != "plugin.video.pipejoint" ]; then
+            echo "::error::The archive must unpack to a single top-level folder plugin.video.pipejoint, got: ${top_level}"
+            exit 1
+          fi
+          if ! unzip -Z1 "${archive}" | grep -qx 'plugin.video.pipejoint/addon.xml'; then
+            echo "::error::plugin.video.pipejoint/addon.xml is missing from the archive."
+            exit 1
+          fi
+          if unzip -Z1 "${archive}" | grep -q '^docs/'; then
+            echo "::error::Documentation assets must not be packaged into the add-on archive."
+            exit 1
+          fi
+
+      - name: Publish the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          archive="kodi-pipejoint-plugin_v${version}.zip"
+          cat > release-notes.md <<EOF
+          PipeJoint ${GITHUB_REF_NAME} is a **beta** release of the privacy-friendly YouTube client for Kodi.
+
+          Download **${archive}** below and install it in Kodi via *Add-ons -> Install from zip file*.
+          Installation from unknown sources must be enabled in Kodi first.
+
+          > **Beta:** the add-on is under active development, so bugs may be encountered.
+
+          > **Reinstall rather than update:** if you already have a development install
+          > (for example a hand-built 0.0.4), install this release fresh instead of updating
+          > it. Kodi does not offer a downgrade, so the newer version would otherwise stay
+          > in place and keep running the old build.
+          EOF
+          gh release create "${GITHUB_REF_NAME}" \
+            "${archive}" \
+            --title "PipeJoint ${GITHUB_REF_NAME}" \
+            --notes-file release-notes.md

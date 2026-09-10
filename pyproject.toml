@@ -1,0 +1,34 @@
+# Development tooling configuration (ruff + mypy).
+#
+# The add-on ships a vendored copy of yt-dlp under resources/lib/yt_dlp/.
+# That tree is third-party code and is deliberately excluded from both tools
+# so they only report on PipeJoint's own sources and its tests.
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["resources/lib/yt_dlp"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+# Line length is enforced by the formatter, not the linter.
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# Test scripts run on a bare desktop: they patch sys.path (and sys.modules)
+# before importing the modules under test, so imports cannot sit at the top.
+"tests/*" = ["E402"]
+
+[tool.mypy]
+python_version = "3.10"
+# Never type-check the vendored, untyped yt_dlp tree, nor the test scripts:
+# the shim tests deliberately install fake modules into sys.modules (xbmc,
+# resolver, ytlib), which static analysis cannot model without a stub package.
+# ruff still lints tests/.
+exclude = ["^resources/lib/yt_dlp/", "(^|/)tests/"]
+# xbmc / xbmcaddon / xbmcgui / xbmcplugin have no stubs and resolve to the
+# Kodi host at runtime; treat them as untyped rather than reporting an error.
+ignore_missing_imports = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true

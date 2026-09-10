@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.pipejoint"
+       name="PipeJoint"
+       version="0.0.1"
+       provider-name="georgehuble">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="inputstream.adaptive" version="20.0.0"/>
+        <import addon="script.module.inputstreamhelper" version="0.5.2" optional="true"/>
+    </requires>
+
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Privacy-friendly YouTube client</summary>
+        <description lang="en_GB">PipeJoint plays YouTube with a bundled yt-dlp engine and InputStream Adaptive. No Google account, no third-party Invidious instances: search, channels, and playback go straight to YouTube, while subscriptions, history and playlists stay local on your device.</description>
+        <platform>all</platform>
+        <license>GPL-3.0-or-later</license>
+        <language>en</language>
+        <source>https://github.com/georgehuble/kodi-pipejoint-plugin</source>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
+    </extension>
+</addon>

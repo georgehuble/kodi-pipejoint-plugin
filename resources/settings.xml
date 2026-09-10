@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <category label="Video">
+        <setting id="default_quality"
+                 type="select"
+                 label="Default video quality"
+                 values="Auto/Best|144p|240p|360p|480p|720p|1080p|1440p|2160p"
+                 default="720p"/>
+        <setting id="show_higher_resolutions"
+                 type="select"
+                 label="Show resolutions above 1080p"
+                 values="Off|On"
+                 default="Off"/>
+        <setting id="default_audio"
+                 type="select"
+                 label="Default audio"
+                 values="Auto|Original|ru|en-US|uk|de|fr|es|it|pt-BR|ja|ko|zh-Hans|zh-Hant|ar|hi|tr|pl|nl|cs|sv|da|fi|no|pt-PT|el|he|th|vi"
+                 default="Original"/>
+        <setting id="subtitles"
+                 type="select"
+                 label="Subtitles"
+                 values="Off|On"
+                 default="Off"/>
+    </category>
+</settings>

@@ -1,0 +1,50 @@
+# Always-on checks.
+#
+# Runs on every push (any branch) and on every pull request, so ordinary work is
+# verified even when no release is prepared. This workflow never publishes
+# anything: publishing lives in release.yml and is triggered by a version tag.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          # Kodi 20/21 ship Python 3.11; the sources target 3.10+.
+          python-version: "3.11"
+      - name: Install tooling
+        run: python -m pip install --upgrade pip ruff mypy
+      # pyproject.toml excludes the vendored resources/lib/yt_dlp tree from both.
+      - name: Ruff
+        run: ruff check .
+      - name: Mypy
+        run: mypy .
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # The suite is plain scripts with no test runner: tests/ holds desktop tests
+      # (no Kodi needed) and Kodi-shim tests. tests/kodi_shim.py is a helper
+      # module, not an entry point, so only tests/test_*.py are executed.
+      - name: Run the desktop and Kodi-shim test suite
+        run: |
+          set -euo pipefail
+          for test_script in tests/test_*.py; do
+            echo "==> ${test_script}"
+            python "${test_script}"
+          done

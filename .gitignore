@@ -1,0 +1,11 @@
+*.py[c|o]
+__pycache__/
+.idea/
+*.mo
+.python-version
+# Locally built release archives; the released zip is produced by CI.
+*.zip
+# Local Kodi run logs written next to the sources during manual testing.
+*.log
+kodi.log
+kodi.old.log
