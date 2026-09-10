@@ -7,7 +7,7 @@
 <div align="center">
 
 [![Latest release](https://img.shields.io/github/v/release/georgehuble/kodi-pipejoint-plugin?label=release&color=blue)](https://github.com/georgehuble/kodi-pipejoint-plugin/releases)
-[![License: GPL-3.0-or-later](docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![License: GPL-3.0-or-later](https://img.shields.io/badge/License-GNU_GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![CI](https://img.shields.io/github/actions/workflow/status/georgehuble/kodi-pipejoint-plugin/ci.yml?label=CI)](https://github.com/georgehuble/kodi-pipejoint-plugin/actions/workflows/ci.yml)
 [![Kodi](https://img.shields.io/badge/Kodi-20%2B-blue)](https://kodi.tv)
 
@@ -240,3 +240,5 @@ the network shown next to the address.
 PipeJoint is distributed under the **GNU General Public License v3.0 or later**
 (GPL-3.0-or-later) - see [`LICENSE`](LICENSE). PipeJoint is derived from MIT-licensed code, and
 that attribution is preserved in the relevant source headers.
+
+[![GPL-3.0-or-later](docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)

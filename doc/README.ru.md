@@ -7,7 +7,7 @@
 <div align="center">
 
 [![Последний релиз](https://img.shields.io/github/v/release/georgehuble/kodi-pipejoint-plugin?label=release&color=blue)](https://github.com/georgehuble/kodi-pipejoint-plugin/releases)
-[![Лицензия: GPL-3.0-or-later](../docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Лицензия: GPL-3.0-or-later](https://img.shields.io/badge/License-GNU_GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![CI](https://img.shields.io/github/actions/workflow/status/georgehuble/kodi-pipejoint-plugin/ci.yml?label=CI)](https://github.com/georgehuble/kodi-pipejoint-plugin/actions/workflows/ci.yml)
 [![Kodi](https://img.shields.io/badge/Kodi-20%2B-blue)](https://kodi.tv)
 
@@ -244,3 +244,5 @@ PipeJoint - свободное ПО, которое развивается в с
 PipeJoint распространяется под лицензией **GNU General Public License v3.0 или новее**
 (GPL-3.0-or-later) - см. [`LICENSE`](../LICENSE). PipeJoint основан на коде под лицензией MIT, и
 эта атрибуция сохранена в соответствующих заголовках исходников.
+
+[![GPL-3.0-or-later](../docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
