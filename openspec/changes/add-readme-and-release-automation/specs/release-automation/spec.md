@@ -48,12 +48,17 @@ The archive attached to a release SHALL be named `kodi-pipejoint-plugin_v<versio
 
 ### Requirement: Continuous integration on changes
 
-The repository SHALL run its automated checks on pushes to the main branch and on pull requests, without publishing a release.
+The repository SHALL run its automated checks on pushes to the main branch and on pull requests, without publishing a release. Checks SHALL be reproducible on a hosted runner: any check that needs live access to the video service SHALL stay out of the automated suite and be run manually.
 
 #### Scenario: Checks run without publishing
 
 - **WHEN** a commit is pushed to the main branch or a pull request is opened
 - **THEN** linting, type checking and the automated test suite are run and no release is created
+
+#### Scenario: Live network check stays manual
+
+- **WHEN** the automated test suite runs on a hosted runner
+- **THEN** the live end-to-end check that resolves a real video is skipped, so a bot check from the video service cannot fail the run, while the offline desktop and Kodi-shim checks still execute
 
 ### Requirement: Local release entry point
 

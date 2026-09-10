@@ -44,10 +44,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      # tests/test_kodi_shim.py is the live end-to-end check and needs real
+      # network access, so it is run manually and skipped on hosted runners.
       - name: Run the desktop and Kodi-shim test suite
         run: |
           set -euo pipefail
           for test_script in tests/test_*.py; do
+            if [ "${test_script}" = "tests/test_kodi_shim.py" ]; then
+              echo "==> ${test_script} (skipped: live-network check, run manually)"
+              continue
+            fi
             echo "==> ${test_script}"
             python "${test_script}"
           done

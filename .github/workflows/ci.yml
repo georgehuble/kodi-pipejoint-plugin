@@ -41,10 +41,17 @@ jobs:
       # The suite is plain scripts with no test runner: tests/ holds desktop tests
       # (no Kodi needed) and Kodi-shim tests. tests/kodi_shim.py is a helper
       # module, not an entry point, so only tests/test_*.py are executed.
+      # tests/test_kodi_shim.py is the live end-to-end check: it resolves a real
+      # video over the network, which hosted runners cannot do because the video
+      # service answers them with a bot check. It is run manually, not here.
       - name: Run the desktop and Kodi-shim test suite
         run: |
           set -euo pipefail
           for test_script in tests/test_*.py; do
+            if [ "${test_script}" = "tests/test_kodi_shim.py" ]; then
+              echo "==> ${test_script} (skipped: live-network check, run manually)"
+              continue
+            fi
             echo "==> ${test_script}"
             python "${test_script}"
           done
