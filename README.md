@@ -7,7 +7,7 @@
 <div align="center">
 
 [![Latest release](https://img.shields.io/github/v/release/georgehuble/kodi-pipejoint-plugin?label=release&color=blue)](https://github.com/georgehuble/kodi-pipejoint-plugin/releases)
-[![License](https://img.shields.io/github/license/georgehuble/kodi-pipejoint-plugin?label=license&color=blue)](LICENSE)
+[![License: GPL-3.0-or-later](docs/assets/licence.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![CI](https://img.shields.io/github/actions/workflow/status/georgehuble/kodi-pipejoint-plugin/ci.yml?label=CI)](https://github.com/georgehuble/kodi-pipejoint-plugin/actions/workflows/ci.yml)
 [![Kodi](https://img.shields.io/badge/Kodi-20%2B-blue)](https://kodi.tv)
 
